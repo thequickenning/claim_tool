@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "bitcoinhex": "git+https://github.com/BitcoinHEX/contract.git",
+    "bitcoinjs-lib": "^3.3.2",
+    "bs58check": "^2.1.1",
     "ethereumjs-util": "^5.2.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
