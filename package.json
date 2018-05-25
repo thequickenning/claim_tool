@@ -11,6 +11,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "bitcoinhex": "git+https://github.com/BitcoinHEX/contract.git",
     "ethereumjs-util": "^5.2.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
