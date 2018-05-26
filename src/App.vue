@@ -1,21 +1,23 @@
 <template>
   <div id="app">
-
+    Hello World
   </div>
 </template>
 
 <script>
-const MerkleTree = require('./scripts/merkleTree');
-const bs58check = require('bs58check');
-const Web3 = require('web3');
-const bitcoin = require('bitcoinjs-lib');
-const { Buffer } = require('buffer');
-const { ecsign } = require('ethereumjs-util');
+import bitcoin from 'bitcoinjs-lib';
+import bs58check from 'bs58check';
+import { Buffer } from 'buffer';
+import { ecsign } from 'ethereumjs-util';
+import Web3 from 'web3';
 
-const utxoMerkleTree = MerkleTree.fromJSON(require('./artifacts/merkleTree.json'));
+import { abi } from 'bitcoinhex/build/contracts/BitcoinHex.json';
+import config from 'bitcoinhex/config.json';
+import merkleTreeRaw from './artifacts/merkleTree.json';
+import utxoSet from './artifacts/utxo.json';
+import MerkleTree from './scripts/merkleTree';
 
-const utxoSet = require('./artifacts/utxo.json');
-
+const utxoMerkleTree = MerkleTree.fromJSON(merkleTreeRaw);
 const web3inst = new Web3();
 
 const network = {
@@ -38,13 +40,11 @@ const hashUTXO = (utxo) => {
   );
 };
 
-const abi = require('bitcoinhex/build/contracts/BitcoinHex.json').abi;
 
 const redeemUTXO = abi.filter(m => m.name === 'redeemUTXO')[0];
-const config = require('bitcoinhex/config.json');
 
 export default {
-  name: 'app',
+  name: 'App',
   data: () => ({
     disclaimer: false,
     valid: false,
