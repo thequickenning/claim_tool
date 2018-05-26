@@ -5,7 +5,7 @@ const web3 = require('web3');
 
 const soliditySha3 = el => Buffer.from(web3.utils.soliditySha3.apply(undefined, el).slice(2), 'hex');
 
-class MerkleTree {
+export default class MerkleTree {
   constructor(elements) {
     // Hash elements
     this.elements = elements.map(soliditySha3);
@@ -147,5 +147,3 @@ class MerkleTree {
     return Buffer.concat([...args].sort(Buffer.compare));
   }
 }
-
-module.exports = MerkleTree;
