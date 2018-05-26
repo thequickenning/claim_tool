@@ -14,7 +14,6 @@ const { ecsign } = require('ethereumjs-util');
 
 const utxoMerkleTree = MerkleTree.fromJSON(require('./artifacts/merkleTree.json'));
 
-const utxoMerkleRoot = utxoMerkleTree.getHexRoot();
 const utxoSet = require('./artifacts/utxo.json');
 
 const web3inst = new Web3();
@@ -77,6 +76,7 @@ export default {
       const keyPair = bitcoin.ECPair.fromWIF(this.privkey, network);
       const ethAddr = this.ethAddr.slice(2);
       const hashBuf = bitcoin.crypto.sha256(Buffer.from(ethAddr, 'hex'));
+      // eslint-disable-next-line prefer-const
       let { r, s, v } = ecsign(hashBuf, keyPair.d.toBuffer());
       r = `0x${r.toString('hex')}`;
       s = `0x${s.toString('hex')}`;
