@@ -3,9 +3,10 @@ import VueRouter from 'vue-router';
 import VueMeta from 'vue-meta';
 import Vuetify from 'vuetify';
 
-import App from './App.vue';
-import routes from './routes.js';
-import store from './store.js';
+import App from './App';
+
+import routes from './routes';
+import store from './store';
 
 import '../node_modules/vuetify/dist/vuetify.min.css';
 
