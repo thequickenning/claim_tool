@@ -1,118 +1,191 @@
 <template>
-  <div id="app">
-    Hello World
-  </div>
+  <v-app id="app">
+    <v-layout>
+      <v-flex
+        xs12
+        sm6
+        offset-sm3>
+        <v-card id="card">
+          <v-card-media
+            src="https://github.com/BitcoinHEX/logo/blob/master/Logo@1024.png?raw=true"
+            height="200px"
+            :contain="true"
+          />
+          <v-card-title primary-title>
+            Bitcoin Hex ERC20 Token Redemption
+          </v-card-title>
+          <v-card-text>
+            <div v-if="!disclaimer">
+              <form-wizard
+                ref="wizard"
+                @on-complete="onComplete">
+
+                <tab-content
+                  title="Enter Bitcoin Address"
+                  icon="ti-user"
+                  :before-change="addressFormSubmit">
+
+                  <AddressForm
+                    :address="address"
+                    @updateAddress="updateAddress"
+                  />
+
+                </tab-content>
+
+                <tab-content
+                  title="Select UTXO"
+                  icon="ti-settings"
+                  :before-change="selectUTXO"
+                >
+                  <SearchResults
+                    :selected="selected"
+                    :utxos="utxos"
+                    @setUTXO="setUTXO"
+                  />
+                </tab-content>
+
+                <tab-content
+                  title="Prove Ownership"
+                  icon="ti-settings"
+                  :before-change="validateSignedMessage"
+                >
+                  <ProveOwnership
+                    @updatePublicKey="updatePublicKey"
+                    @updateSignedMessage="updateSignedMessage"
+                  />
+                </tab-content>
+
+                <tab-content
+                  title="Enter Ethereum Address"
+                  icon="ti-settings"
+                  :before-change="prepareEthTransaction"
+                >
+                  <EnterEthereumAddress
+                    v-if="selected !== null"
+                    :selected="selected"
+                    :address="address"
+                  />
+                </tab-content>
+
+                <tab-content
+                  title="Send Transaction"
+                  icon="ti-settings"
+                  :before-change="sendEthTransaction"
+                >
+                  <SendTransaction
+                    :gas-amount="gasAmount"
+                    :token-address="tokenAddress"
+                    :tx-hash="txHash"
+                  />
+                </tab-content>
+
+                <tab-content
+                  title="Last step"
+                  icon="ti-check">
+                  TODO
+                  Show Congrats Text
+                  Show Eth Link to eth Transaction
+                  Explain to do Another one click "Finish" (change finish button to Start Over)
+                </tab-content>
+
+              </form-wizard>
+            </div>
+            <Disclaimer
+              v-if="disclaimer"
+              @agree="showWizard()" />
+          </v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
+    <router-view/>
+  </v-app>
 </template>
-
 <script>
-import bitcoin from 'bitcoinjs-lib';
-import bs58check from 'bs58check';
-import { Buffer } from 'buffer';
-import { ecsign } from 'ethereumjs-util';
-import Web3 from 'web3';
-
-import { abi } from 'bitcoinhex/build/contracts/BitcoinHex.json';
-import config from 'bitcoinhex/config.json';
-import merkleTreeRaw from './artifacts/merkleTree.json';
-import utxoSet from './artifacts/utxo.json';
-import MerkleTree from './scripts/merkleTree';
-
-const utxoMerkleTree = MerkleTree.fromJSON(merkleTreeRaw);
-const web3inst = new Web3();
-
-const network = {
-  messagePrefix: '\x18Bitcoin Signed Message:\n',
-  bip32: {
-    public: 0x0488B21E,
-    private: 0x0488ADE4,
-  },
-  pubKeyHash: 0x00,
-  scriptHash: 0x05,
-  wif: 0x80,
-};
-const hashUTXO = (utxo) => {
-  const rawAddr = bs58check.decode(utxo.address).slice(1, 21).toString('hex');
-  return Web3.utils.soliditySha3(
-    { type: 'bytes32', value: `0x${utxo.txid}` },
-    { type: 'bytes20', value: `0x${rawAddr}` },
-    { type: 'uint8', value: utxo.outputIndex },
-    { type: 'uint', value: utxo.satoshis },
-  );
-};
+import Disclaimer from './components/Disclaimer';
+import AddressForm from './components/AddressForm';
+import SearchResults from './components/SearchResults';
+import ProveOwnership from './components/ProveOwnership';
+import EnterEthereumAddress from './components/EnterEthereumAddress';
+import SendTransaction from './components/SendTransaction';
 
 
-const redeemUTXO = abi.filter(m => m.name === 'redeemUTXO')[0];
+const utxoSet = require('./artifacts/utxo.json'); // TODO This will be pulled in VIA node_modules or build process
 
 export default {
+  components: {
+    AddressForm,
+    Disclaimer,
+    EnterEthereumAddress,
+    SearchResults,
+    ProveOwnership,
+    SendTransaction,
+  },
   name: 'App',
+  metaInfo: {
+    title: 'Bitcoin Hex ERC20 Token Redemption',
+  },
   data: () => ({
-    disclaimer: false,
-    valid: false,
-    redeemValid: false,
-    privkey: '',
-    privkeyRules: [
-      p => !!p || 'Privkey is required!',
-    ],
-    ethAddr: '',
-    ethAddrRules: [
-      e => !!e || 'Ethereum address is required!',
-    ],
-    address: '',
-    addressRules: [
-      a => !!a || 'Address is required!',
-    ],
-    utxos: [],
-    encoded: null,
-    tokenAddress: config.deployed.main.WyvernToken,
-    gasAmount: 300000,
+    address: 'WNgGNFk77MxLBgpfG7qTq2wMxYXd9rwBuY',
+    ethAddress: '',
+    publicKey: '',
+    gasAmount: 0,
+    signedMessage: '',
+    disclaimer: true,
     selected: null,
-    txHash: null,
+    tokenAddress: '',
+    txHash: '',
+    utxos: [],
   }),
   methods: {
-    redeem() {
-      const utxo = this.selected;
-      const hash = hashUTXO(utxo);
-      const proof = utxoMerkleTree.getHexProof(Buffer.from(hash.slice(2), 'hex'));
-      const keyPair = bitcoin.ECPair.fromWIF(this.privkey, network);
-      const ethAddr = this.ethAddr.slice(2);
-      const hashBuf = bitcoin.crypto.sha256(Buffer.from(ethAddr, 'hex'));
-      // eslint-disable-next-line prefer-const
-      let { r, s, v } = ecsign(hashBuf, keyPair.d.toBuffer());
-      r = `0x${r.toString('hex')}`;
-      s = `0x${s.toString('hex')}`;
-      const pubKey = `0x${keyPair.Q.affineX.toBuffer(32).toString('hex')}${keyPair.Q.affineY.toBuffer(32).toString('hex')}`;
-      const encoded = web3inst.eth.abi.encodeFunctionCall(redeemUTXO,
-        [`0x${utxo.txid}`, utxo.outputIndex, utxo.satoshis, proof, pubKey, true, v, r, s],
-      );
-      this.encoded = encoded;
-    },
-    send() {
-      if (!window.web3) {
-        // No MetaMask, Alert
-      } else {
-        const w3 = window.web3;
-        w3.eth.sendTransaction({
-          from: this.ethAddr,
-          to: this.tokenAddress,
-          gas: this.gasAmount,
-          data: this.encoded,
-        }, (err, txHash) => {
-          if (err) {
-            // Transaction Error, Alert
-          } else {
-            this.txHash = txHash;
-          }
-        });
-      }
-    },
-    scan() {
-      const addr = this.address;
-      const matched = utxoSet.filter(utxo => utxo.address === addr);
+    addressFormSubmit() {
+      const matched = utxoSet.filter(utxo => utxo.address === this.address);
       this.utxos = matched;
+      return true;
+    },
+    updateAddress(address) {
+      this.address = address;
+    },
+    updateEthAddress(ethAddress) {
+      this.ethAddress = ethAddress;
+    },
+    updatePublicKey(publicKey) {
+      this.publicKey = publicKey;
+    },
+    updateSignedMessage(signedMessage) {
+      this.signedMessage = signedMessage;
+    },
+    showWizard() {
+      this.disclaimer = false;
+    },
+    onComplete() {
+      alert('TODO - Reset World, bring user back to start');
+    },
+    prepareEthTransaction() {
+      alert('TODO implement prepareEthTransaction()');
+      return true;
+    },
+    sendEthTransaction() {
+      alert('TODO implement sendEthTransaction()');
+      return true;
+    },
+    setUTXO(utxo) {
+      this.utxos.forEach((u) => {
+        u.selected = '';
+      });
+      utxo.selected = 'Selected';
+      this.selected = utxo;
+      alert(`${utxo.outputIndex} - Selected - TODO get UI to display selected by highlighting`);
+    },
+    selectUTXO() {
+      if (this.selected) {
+        return true;
+      }
+      return false;
+    },
+    validateSignedMessage() {
+      alert('TODO implement validateSignedMessage()');
+      return true;
     },
   },
 };
 </script>
-
-<style scoped>
-</style>

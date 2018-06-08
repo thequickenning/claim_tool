@@ -1,13 +1,33 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
+import VueFormWizard from 'vue-form-wizard';
+import VueRouter from 'vue-router';
+import VueMeta from 'vue-meta';
+import Vuetify from 'vuetify';
+
 import App from './App';
 
-Vue.config.productionTip = false;
+import routes from './routes';
+import store from './store';
+
+import 'vuetify/dist/vuetify.min.css';
+import 'vue-form-wizard/dist/vue-form-wizard.min.css';
+
+Vue.use(VueRouter);
+Vue.use(VueMeta);
+Vue.use(VueFormWizard);
+Vue.use(Vuetify, {
+  theme: {
+    primary: '#000',
+  },
+});
+
+const router = new VueRouter({ routes, mode: 'history' });
 
 /* eslint-disable no-new */
 new Vue({
+  store,
+  router,
   el: '#app',
+  render: h => h(App),
   components: { App },
-  template: '<App/>',
 });
