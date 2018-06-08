@@ -16,7 +16,6 @@
     "bitcoinjs-lib": "^3.3.2",
     "bs58check": "^2.1.1",
     "ethereumjs-util": "^5.2.0",
-    "pretty-checkbox-vue": "^1.1.8",
     "vue": "^2.5.2",
     "vue-form-wizard": "^0.8.4",
     "vue-meta": "^1.5.0",

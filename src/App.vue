@@ -17,6 +17,7 @@
           <v-card-text>
             <div v-if="!disclaimer">
               <form-wizard
+                ref="wizard"
                 @on-complete="onComplete">
 
                 <tab-content
@@ -32,12 +33,12 @@
                 </tab-content>
 
                 <tab-content
-                  title="Choose Unspent transactions"
+                  title="Select UTXO"
                   icon="ti-settings"
                   :before-change="selectUTXO"
                 >
                   <SearchResults
-                    :selected-utxo="selectedUTXO"
+                    :selected="selected"
                     :utxos="utxos"
                     @setUTXO="setUTXO"
                   />
@@ -45,7 +46,9 @@
 
                 <tab-content
                   title="Prove Ownership"
-                  icon="ti-settings">
+                  icon="ti-settings"
+                  :before-change="validateSignedMessage"
+                >
                   <ProveOwnership
                     @updatePublicKey="updatePublicKey"
                     @updateSignedMessage="updateSignedMessage"
@@ -54,19 +57,22 @@
 
                 <tab-content
                   title="Enter Ethereum Address"
-                  icon="ti-settings">
+                  icon="ti-settings"
+                  :before-change="prepareEthTransaction"
+                >
                   <EnterEthereumAddress
-                    v-if="selectedUTXO !== null"
-                    :selected-utxo="selectedUTXO"
+                    v-if="selected !== null"
+                    :selected="selected"
                     :address="address"
                   />
                 </tab-content>
 
                 <tab-content
                   title="Send Transaction"
-                  icon="ti-settings">
+                  icon="ti-settings"
+                  :before-change="sendEthTransaction"
+                >
                   <SendTransaction
-                    v-if="selectedUTXO !== null"
                     :gas-amount="gasAmount"
                     :token-address="tokenAddress"
                     :tx-hash="txHash"
@@ -76,7 +82,10 @@
                 <tab-content
                   title="Last step"
                   icon="ti-check">
-                  Yuhuuu! This seems pretty damn simple
+                  TODO
+                  Show Congrats Text
+                  Show Eth Link to eth Transaction
+                  Explain to do Another one click "Finish" (change finish button to Start Over)
                 </tab-content>
 
               </form-wizard>
@@ -116,13 +125,13 @@ export default {
     title: 'Bitcoin Hex ERC20 Token Redemption',
   },
   data: () => ({
-    address: 'WNga1H59wMqThiVhABH4K99afJR4FnnxrR',
+    address: 'WNgGNFk77MxLBgpfG7qTq2wMxYXd9rwBuY',
     ethAddress: '',
     publicKey: '',
     gasAmount: 0,
     signedMessage: '',
     disclaimer: true,
-    selectedUTXO: null,
+    selected: null,
     tokenAddress: '',
     txHash: '',
     utxos: [],
@@ -149,17 +158,33 @@ export default {
       this.disclaimer = false;
     },
     onComplete() {
-      alert('Restart');
+      alert('TODO - Reset World, bring user back to start');
+    },
+    prepareEthTransaction() {
+      alert('TODO implement prepareEthTransaction()');
+      return true;
+    },
+    sendEthTransaction() {
+      alert('TODO implement sendEthTransaction()');
+      return true;
     },
     setUTXO(utxo) {
-      alert(`${utxo.outputIndex} Selected -- need having difficulty displaying this in the ui`);
-      this.selectedUTXO = utxo;
+      this.utxos.forEach((u) => {
+        u.selected = '';
+      });
+      utxo.selected = 'Selected';
+      this.selected = utxo;
+      alert(`${utxo.outputIndex} - Selected - TODO get UI to display selected by highlighting`);
     },
     selectUTXO() {
-      if (this.selectedUTXO) {
+      if (this.selected) {
         return true;
       }
       return false;
+    },
+    validateSignedMessage() {
+      alert('TODO implement validateSignedMessage()');
+      return true;
     },
   },
 };

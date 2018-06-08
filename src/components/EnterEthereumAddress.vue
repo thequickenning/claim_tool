@@ -5,9 +5,9 @@
         Redeeming UTXO for address {{ address }}
       </v-card-title>
       <v-card-text>
-        {{ selectedUTXO.satoshis / Math.pow(10, 8) }} BTC
-        TX <small>{{ selectedUTXO.txid }}</small><br >
-        Output #{{ selectedUTXO.outputIndex }}
+        {{ selected.satoshis / Math.pow(10, 8) }} BTC
+        TX <small>{{ selected.txid }}</small><br >
+        Output #{{ selected.outputIndex }}
       </v-card-text>
     </v-card>
     <v-card>
@@ -42,9 +42,9 @@ export default {
       type: String,
       required: true,
     },
-    selectedUTXO: {
+    selected: {
       type: Object,
-      required: true,
+      required: false,
     },
   },
 };

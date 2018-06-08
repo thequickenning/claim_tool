@@ -14,6 +14,7 @@
         @click="setUTXO(utxo)">
         <v-card>
           <v-card-text>
+            {{ utxo.selected }}
             {{ utxo.satoshis / Math.pow(10, 8) }} BTC
             TX <small>{{ utxo.txid }}</small>
             <br >
@@ -32,10 +33,6 @@ export default {
     },
   },
   props: {
-    selectedUTXO: {
-      type: Object,
-      required: false,
-    },
     utxos: {
       type: Array,
       required: true,
