@@ -52,7 +52,7 @@
         target="_blank">Strape chat (via Discord)</a>
       or message the Bitcoin Hex team [Other location]for help.
       <strong>
-        No one at the BitcoinHex team will ever ask you for your private keys. 
+        No one at the BitcoinHex team will ever ask you for your private keys.
         Do not give them to anyone who asks.
       </strong>
     </p>
