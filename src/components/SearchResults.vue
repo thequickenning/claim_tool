@@ -7,17 +7,18 @@
     <v-layout
       row
       wrap>
-      <v-flex xs12
+      <v-flex
+        xs12
         v-for="(utxo, index) in utxos"
         :key="index"
         @click="setUTXO(utxo)">
         <v-card>
-            <v-card-text>
-                {{ utxo.satoshis / Math.pow(10, 8) }} BTC
-                TX <small>{{ utxo.txid }}</small>
-                <br >
-                Output #{{ utxo.outputIndex }}
-            </v-card-text>
+          <v-card-text>
+            {{ utxo.satoshis / Math.pow(10, 8) }} BTC
+            TX <small>{{ utxo.txid }}</small>
+            <br >
+            Output #{{ utxo.outputIndex }}
+          </v-card-text>
         </v-card>
       </v-flex>
     </v-layout>

@@ -57,7 +57,7 @@
                   icon="ti-settings">
                   <EnterEthereumAddress
                     v-if="selectedUTXO !== null"
-                    :selectedUTXO="selectedUTXO"
+                    :selected-utxo="selectedUTXO"
                     :address="address"
                   />
                 </tab-content>
@@ -69,7 +69,7 @@
                     v-if="selectedUTXO !== null"
                     :gas-amount="gasAmount"
                     :token-address="tokenAddress"
-                    :txHash="txHash"
+                    :tx-hash="txHash"
                   />
                 </tab-content>
 
@@ -100,7 +100,7 @@ import EnterEthereumAddress from './components/EnterEthereumAddress';
 import SendTransaction from './components/SendTransaction';
 
 
-const utxoSet = require('./utxo-merkle-proof/data/utxos.json');
+const utxoSet = require('./artifacts/utxo.json'); // TODO This will be pulled in VIA node_modules or build process
 
 export default {
   components: {
@@ -116,7 +116,7 @@ export default {
     title: 'Bitcoin Hex ERC20 Token Redemption',
   },
   data: () => ({
-    address: 'WNgGNFk77MxLBgpfG7qTq2wMxYXd9rwBuY',
+    address: 'WNga1H59wMqThiVhABH4K99afJR4FnnxrR',
     ethAddress: '',
     publicKey: '',
     gasAmount: 0,
@@ -149,18 +149,17 @@ export default {
       this.disclaimer = false;
     },
     onComplete() {
-      alert("Restart");
+      alert('Restart');
     },
     setUTXO(utxo) {
-      alert(utxo.outputIndex + " Selected -- need having difficulty displaying this in the ui");
+      alert(`${utxo.outputIndex} Selected -- need having difficulty displaying this in the ui`);
       this.selectedUTXO = utxo;
     },
     selectUTXO() {
       if (this.selectedUTXO) {
         return true;
-      } else {
-        return false;
       }
+      return false;
     },
   },
 };
