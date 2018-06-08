@@ -7,7 +7,7 @@ Vue.use(Vuex);
 
 const vuexLocal = new VuexPersistence({
   storage: window.localStorage,
-  reducer: state => ({}),
+  reducer: () => ({}),
 });
 
 const state = {};

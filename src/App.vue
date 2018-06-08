@@ -31,7 +31,8 @@
                 </v-card>
                 <br ><br >
                 <v-form v-model="redeemValid">
-                  <div>Provide the Wyvern private key associated with this address (used to prove you own the UTXO).</div>
+                  <div>Provide the Wyvern private key associated with this address (used to prove
+                  you own the UTXO).</div>
                   <v-text-field
                     label="Wyvern Private Key"
                     v-model="privkey"
@@ -51,7 +52,11 @@
                     :disabled="!redeemValid">Generate Redeem Transaction</v-btn>
                   <br ><br >
                   <div v-if="encoded">
-                    Send an Ethereum transaction with the specified data, destination address, and gas amount to redeem your Wyvern UTXO. You may enter the below information into your Ethereum wallet of choice or send the transaction to Metamask directly if you have Metamask installed and configured with the account which will receive the tokens.
+                    Send an Ethereum transaction with the specified data, destination address, and
+                    gas amount to redeem your Wyvern UTXO. You may enter the below information into
+                    your Ethereum wallet of choice or send the transaction to Metamask directly if
+                    you have Metamask installed and configured with the account which will receive
+                    the tokens.
                     <br ><br >
                     <v-btn
                       @click="send"
@@ -82,7 +87,8 @@
               </div>
               <div v-if="disclaimer && !selected">
                 <div>
-                  Enter your Wyvern address and select which UTXO you want to redeem. Each UTXO can only be redeemed once.<br ><br >
+                  Enter your Wyvern address and select which UTXO you want to redeem. Each UTXO can
+                  only be redeemed once.<br ><br >
                 </div>
                 <v-form
                   v-model="valid"
@@ -112,7 +118,9 @@
                         <v-card-title
                           primary-title
                           style="font-family: Roboto; display: block;">
-                          <div style="font-size: 2em;">{{ utxo.satoshis / Math.pow(10, 8) }} WYV</div>
+                          <div style="font-size: 2em;">
+                            {{ utxo.satoshis / Math.pow(10, 8) }} WYV
+                          </div>
                           <div>TX {{ utxo.txid }} Output #{{ utxo.outputIndex }}</div>
                         </v-card-title>
                         <v-card-actions class="utxo-actions">
@@ -128,31 +136,56 @@
               </div>
               <div v-if="!disclaimer">
                 <p style="font-size: 1.2em">
-                  This web application will walk you through redeeming your Wyvern on the original Wyvern blockchain for ERC20 WYV tokens on the Ethereum blockchain. These WYV tokens will give you shareholder rights in the Wyvern DAO, which will run the Wyvern Exchange. Learn more at <a
+                  This web application will walk you through redeeming your Wyvern on the original
+                  Wyvern blockchain for ERC20 WYV tokens on the Ethereum blockchain. These WYV
+                  tokens will give you shareholder rights in the Wyvern DAO, which will run the
+                  Wyvern Exchange. Learn more at
+                  <a
                     href="https://projectwyvern.com"
-                    target="_blank">projectwyvern.com</a>. The original Wyvern blockchain will be discontinued.
+                    target="_blank">projectwyvern.com</a>.
+                    The original Wyvern blockchain will be discontinued.
                   <br ><br >
-                  You will need access to your Wyvern wallet (either the wyvern-qt GUI or the wyvernd daemon) and access to the Ethereum account where you would like your WYV tokens to be sent. If you do not have an Ethereum account, you can create one using <a
+                  You will need access to your Wyvern wallet (either the wyvern-qt GUI or the
+                  wyvernd daemon) and access to the Ethereum account where you would like your WYV
+                  tokens to be sent. If you do not have an Ethereum account, you can create one
+                  using
+                  <a
                     href="https://myetherwallet.com/"
                     target="_blank">MyEtherWallet</a> or <a
                       href="https://metamask.io/"
-                      target="_blank">Metamask</a>. Your Ethereum account will need a little bit of Ether to send the token redemption transaction(s).
+                      target="_blank">Metamask</a>. Your Ethereum account will need a little bit of
+                      Ether to send the token redemption transaction(s).
                   <br ><br >
-                  The ERC20 port mechanism utilized to convert Wyvern coins into WYV tokens is trustless, meaning that the Wyvern team never controls the funds and that anyone can verify that the process was conducted correctly. Read over <a
+                  The ERC20 port mechanism utilized to convert Wyvern coins into WYV tokens is
+                  trustless, meaning that the Wyvern team never controls the funds and that anyone
+                  can verify that the process was conducted correctly. Read over
+                  <a
                     target="_blank"
-                    href="https://github.com/projectwyvern/utxo-merkle-proof">the Github repository</a> to learn more. You may also run this application offline if you like; find the code <a
-                      target="_blank"
-                      href="https://github.com/projectwyvern/redeem.projectwyvern.com">here</a>.
+                    href="https://github.com/projectwyvern/utxo-merkle-proof">the Github repository
+                  </a> to learn more. You may also run this application offline if you like;
+                  find the code <a
+                    target="_blank"
+                    href="https://github.com/projectwyvern/redeem.projectwyvern.com">here</a>.
                   <br ><br >
                   UTXOs (<a
                     href="https://www.r3.com/blog/2017/07/18/what-is-a-utxo/"
-                    target="_blank">unspent transaction outputs</a>) must be redeemed one-at-a-time. If you have a large number (due to many small transactions) using this web application may take awhile. You can easily automate the process using a script; contact us if you need help doing so.
+                    target="_blank">unspent transaction outputs</a>) must be redeemed one-at-a-time.
+                    If you have a large number (due to many small transactions) using this web
+                    application may take awhile. You can easily automate the process using a script;
+                    contact us if you need help doing so.
                   <br ><br >
-                  Go through the process carefully. There is no deadline for redeeming your tokens. If you are stuck or confused, head on over to the <a
+                  Go through the process carefully. There is no deadline for redeeming your tokens.
+                  If you are stuck or confused, head on over to the
+                  <a
                     href="https://riot.im/app/#/room/#projectwyvern:matrix.org"
-                    target="_blank">Matrix chat (via Riot)</a> or message the Project Wyvern team <a
-                      href="https://twitter.com/WyvernProtocol"
-                      target="_blank">on Twitter</a> for help. <strong>No Wyvern team member will ever ask you for your private keys. Do not give them to anyone who asks.</strong>
+                    target="_blank">Matrix chat (via Riot)</a> or message the Project Wyvern team
+                  <a
+                    href="https://twitter.com/WyvernProtocol"
+                    target="_blank">on Twitter</a> for help.
+                  <strong>
+                    No Wyvern team member will ever ask you for your private keys. Do not give
+                    them to anyone who asks.
+                  </strong>
                 </p>
               </div>
             </div>
@@ -258,7 +291,9 @@ export default {
       let { r, s, v } = ecsign(hashBuf, keyPair.d.toBuffer());
       r = `0x${r.toString('hex')}`;
       s = `0x${s.toString('hex')}`;
-      const pubKey = `0x${keyPair.Q.affineX.toBuffer(32).toString('hex')}${keyPair.Q.affineY.toBuffer(32).toString('hex')}`;
+      const affineX = keyPair.Q.affineX.toBuffer(32).toString('hex');
+      const affineY = keyPair.Q.affineY.toBuffer(32).toString('hex');
+      const pubKey = `0x${affineX}${affineY}`;
       const encoded = web3inst.eth.abi.encodeFunctionCall(redeemUTXO,
         [`0x${utxo.txid}`, utxo.outputIndex, utxo.satoshis, proof, pubKey, true, v, r, s],
       );
@@ -269,8 +304,18 @@ export default {
         alert('Metamask not found!');
       } else {
         const w3 = window.web3;
-        w3.eth.sendTransaction({ from: this.ethAddr, to: this.tokenAddress, gas: this.gasAmount, data: this.encoded }, (err, txHash) => {
-          if (err) { alert(`Error sending transaction: ${err}`); } else { this.txHash = txHash; }
+        w3.eth.sendTransaction({
+          from: this.ethAddr,
+          to: this.tokenAddress,
+          gas: this.gasAmount,
+          data: this.encoded,
+        },
+        (err, txHash) => {
+          if (err) {
+            alert(`Error sending transaction: ${err}`);
+          } else {
+            this.txHash = txHash;
+          }
         });
       }
     },
