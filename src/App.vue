@@ -158,23 +158,18 @@ export default {
       this.disclaimer = false;
     },
     onComplete() {
-      alert('TODO - Reset World, bring user back to start');
+      // alert('TODO - Reset World, bring user back to start');
     },
     prepareEthTransaction() {
-      alert('TODO implement prepareEthTransaction()');
+      // alert('TODO implement prepareEthTransaction()');
       return true;
     },
     sendEthTransaction() {
-      alert('TODO implement sendEthTransaction()');
+      // alert('TODO implement sendEthTransaction()');
       return true;
     },
-    setUTXO(utxo) {
-      this.utxos.forEach((u) => {
-        u.selected = '';
-      });
-      utxo.selected = 'Selected';
-      this.selected = utxo;
-      alert(`${utxo.outputIndex} - Selected - TODO get UI to display selected by highlighting`);
+    setUTXO() {
+      // alert(`${utxo.outputIndex} - Selected - TODO get UI to display selected by highlighting`);
     },
     selectUTXO() {
       if (this.selected) {
@@ -183,7 +178,7 @@ export default {
       return false;
     },
     validateSignedMessage() {
-      alert('TODO implement validateSignedMessage()');
+      // alert('TODO implement validateSignedMessage()');
       return true;
     },
   },

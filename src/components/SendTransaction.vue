@@ -32,19 +32,23 @@ export default {
   props: {
     encoded: {
       type: String,
+      default: '',
       required: false,
     },
     tokenAddress: {
       type: String,
-      required: true,
+      default: '',
+      required: false,
     },
     gasAmount: {
       type: Number,
-      required: true,
+      default: 0,
+      required: false,
     },
     txHash: {
       type: String,
-      required: true,
+      default: '',
+      required: false,
     },
   },
 };

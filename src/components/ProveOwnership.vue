@@ -35,10 +35,10 @@ export default {
   }),
   methods: {
     updatePublicKey() {
-      this.$emit('updatePublicKey', address);
+      this.$emit('updatePublicKey', '');
     },
     updateSignedMessage() {
-      this.$emit('updateSignedMessage', address);
+      this.$emit('updateSignedMessage', '');
     },
   },
 };

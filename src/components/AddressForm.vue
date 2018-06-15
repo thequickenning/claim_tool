@@ -34,6 +34,7 @@ export default {
   props: {
     address: {
       type: String,
+      default: '',
       required: false,
     },
   },

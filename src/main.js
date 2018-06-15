@@ -3,14 +3,12 @@ import VueFormWizard from 'vue-form-wizard';
 import VueRouter from 'vue-router';
 import VueMeta from 'vue-meta';
 import Vuetify from 'vuetify';
-
-import App from './App';
-
-import routes from './routes';
-import store from './store';
-
 import 'vuetify/dist/vuetify.min.css';
 import 'vue-form-wizard/dist/vue-form-wizard.min.css';
+
+import App from './App';
+import routes from './routes';
+import store from './store';
 
 Vue.use(VueRouter);
 Vue.use(VueMeta);
