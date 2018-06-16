@@ -2,7 +2,7 @@
   <v-flex xs12>
     <v-card>
       <v-card-title primary-title>
-        UTXO Selected with {{ store.utxo.satoshis }} satoshis
+        UTXO Selected with {{ $store.state.utxo.satoshis }} satoshis
       </v-card-title>
       <v-card-text>
         <v-form>

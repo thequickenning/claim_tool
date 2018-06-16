@@ -7,13 +7,8 @@ const actualState = {
   count: 0,
   address: '18vP7cwZH66QkAwUBr2bcjA1wJQncMWhFt',
   utox: null,
+  utxoNotFound: null,
 };
-
-// mutations are operations that actually mutates the state.
-// each mutation handler gets the entire state tree as the
-// first argument, followed by additional payload arguments.
-// mutations must be synchronous and can be recorded by plugins
-// for debugging purposes.
 
 const mutations = {
   increment(state) {
@@ -22,25 +17,27 @@ const mutations = {
   decrement(state) {
     state.count -= 1;
   },
+  setUtxo(state, utxo) {
+    state.utxoNotFound = null;
+    state.utxo = utxo;
+  },
+  setUtxoNotFound(state) {
+    state.utxoNotFound = true;
+  },
+  updateAddress(state, address) {
+    state.address = address;
+  },
 };
-
-// actions are functions that cause side effects and can involve
-// asynchronous operations.
 
 const actions = {
   increment: ({ commit }) => commit('increment'),
   decrement: ({ commit }) => commit('decrement'),
+  setUtxo: ({ commit }, utxo) => commit('setUtxo', utxo),
+  setUtxoNotFound: ({ commit }) => commit('setUtxoNotFound'),
+  updateAddress: ({ commit }, address) => commit('updateAddress', address),
 };
 
-// getters are functions
-
-const getters = {
-  evenOrOdd: () => ('even'),
-};
-
-// A Vuex instance is created by combining the state, mutations, actions,
-
-// and getters.
+const getters = {};
 
 export default new Vuex.Store({
   state: actualState,

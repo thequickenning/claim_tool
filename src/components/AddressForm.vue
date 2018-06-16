@@ -6,13 +6,13 @@
         Each UTXO can only be redeemed once.
       </v-card-title>
       <v-card-text>
+        <h1 v-if="$store.state.utxoNotFound"> UTXO Not Found Please Try Again </h1>
         <v-form>
           <v-text-field
             label="Bitcoin Address"
-            @change="updateAddress"
+            @change="addressChange"
             :value="$store.state.address"
             :rules="addressRules"
-            :counter="34"
             required />
         </v-form>
       </v-card-text>
@@ -28,8 +28,13 @@ export default {
       a => !!a || 'Address is required!',
     ],
   }),
-  methods: mapActions([
-    'updateAddress',
-  ]),
+  methods: {
+    ...mapActions([
+      'updateAddress',
+    ]),
+    addressChange(evt) {
+      this.updateAddress(evt);
+    },
+  },
 };
 </script>
