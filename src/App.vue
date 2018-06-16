@@ -1,109 +1,13 @@
 <template>
   <v-app id="app">
-    <v-layout>
-      <v-flex
-        xs12
-        sm6
-        offset-sm3>
-        <v-card id="card">
-          <v-card-media
-            src="https://github.com/BitcoinHEX/logo/blob/master/Logo@1024.png?raw=true"
-            height="200px"
-            :contain="true"
-          />
-          <v-card-title primary-title>
-            Bitcoin Hex ERC20 Token Redemption
-          </v-card-title>
-          <v-card-text>
-            <div v-if="!disclaimer">
-              <form-wizard
-                ref="wizard"
-                @on-complete="onComplete">
-
-                <tab-content
-                  title="Enter Bitcoin Address"
-                  icon="ti-user"
-                  :before-change="addressFormSubmit">
-
-                  <AddressForm
-                    :address="address"
-                    @updateAddress="updateAddress"
-                  />
-
-                </tab-content>
-
-                <tab-content
-                  title="Select UTXO"
-                  icon="ti-settings"
-                  :before-change="selectUTXO"
-                >
-                  <SearchResults
-                    :selected="selected"
-                    :utxos="utxos"
-                    @setUTXO="setUTXO"
-                  />
-                </tab-content>
-
-                <tab-content
-                  title="Prove Ownership"
-                  icon="ti-settings"
-                  :before-change="validateSignedMessage"
-                >
-                  <ProveOwnership
-                    @updatePublicKey="updatePublicKey"
-                    @updateSignedMessage="updateSignedMessage"
-                  />
-                </tab-content>
-
-                <tab-content
-                  title="Enter Ethereum Address"
-                  icon="ti-settings"
-                  :before-change="prepareEthTransaction"
-                >
-                  <EnterEthereumAddress
-                    v-if="selected !== null"
-                    :selected="selected"
-                    :address="address"
-                  />
-                </tab-content>
-
-                <tab-content
-                  title="Send Transaction"
-                  icon="ti-settings"
-                  :before-change="sendEthTransaction"
-                >
-                  <SendTransaction
-                    :gas-amount="gasAmount"
-                    :token-address="tokenAddress"
-                    :tx-hash="txHash"
-                  />
-                </tab-content>
-
-                <tab-content
-                  title="Last step"
-                  icon="ti-check">
-                  TODO
-                  Show Congrats Text
-                  Show Eth Link to eth Transaction
-                  Explain to do Another one click "Finish" (change finish button to Start Over)
-                </tab-content>
-
-              </form-wizard>
-            </div>
-            <Disclaimer
-              v-if="disclaimer"
-              @agree="showWizard()" />
-          </v-card-text>
-        </v-card>
-      </v-flex>
-    </v-layout>
-    <router-view/>
+      <transition name="fade" mode="out-in">
+        <router-view></router-view>
+      </transition>
   </v-app>
 </template>
 <script>
 import Disclaimer from './components/Disclaimer';
 import AddressForm from './components/AddressForm';
-import SearchResults from './components/SearchResults';
 import ProveOwnership from './components/ProveOwnership';
 import EnterEthereumAddress from './components/EnterEthereumAddress';
 import SendTransaction from './components/SendTransaction';
@@ -116,7 +20,6 @@ export default {
     AddressForm,
     Disclaimer,
     EnterEthereumAddress,
-    SearchResults,
     ProveOwnership,
     SendTransaction,
   },

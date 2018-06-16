@@ -62,6 +62,7 @@
         @click="agree()">
         I understand, continue.
       </v-btn>
+      <router-link to="/enter-bitcoin-address">Link to dynamic route</router-link>
     </v-card-actions>
   </v-flex>
 </template>
@@ -70,7 +71,7 @@
 export default {
   methods: {
     agree() {
-      this.$emit('agree');
+      this.$router.go('enter-bitcoin-address');
     },
   },
 };
