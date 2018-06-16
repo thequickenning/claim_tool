@@ -1,7 +1,39 @@
+import AddressForm from './components/AddressForm';
 import Disclaimer from './components/Disclaimer';
-import Wizard1 from './components/wizard-1';
+import ProveOwnership from './components/ProveOwnership';
+import EnterEthereumAddress from './components/EnterEthereumAddress';
+import SendTransaction from './components/SendTransaction';
+import LastStep from './components/LastStep';
 
 export default [
-  { path: '/',  component: Disclaimer }, 
-  { name: 'enter-bitcoin-address', path: '/enter-bitcoin-address', component: Wizard1 },
+    {
+        component: Disclaimer,
+        name: 'disclaimer',
+        path: '/disclaimer',
+    },
+    {
+        component: AddressForm,
+        name: 'wizard-step-1',
+        path: '/enter-bitcoin-address',
+    },
+    {
+        component: ProveOwnership,
+        name: 'wizard-step-2',
+        path: '/prove-ownership',
+    },
+    {
+        component: EnterEthereumAddress,
+        name: 'wizard-step-3',
+        path: '/enter-ethereum-address',
+    },
+    {
+        component: SendTransaction,
+        name: 'wizard-step-4',
+        path: '/send-transaction',
+    },
+    {
+        component: LastStep,
+        name: 'wizard-step-5',
+        path: '/last-step',
+    },
 ];

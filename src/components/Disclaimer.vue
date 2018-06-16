@@ -57,28 +57,15 @@
       </strong>
     </p>
     <v-card-actions>
-      <v-btn
-        class="btn"
-        @click="agree()">
-        I understand, continue.
-      </v-btn>
-      <router-link to="/enter-bitcoin-address">Link to dynamic route</router-link>
+      <router-link class="btn" to="/enter-bitcoin-address">
+        &nbsp;&nbsp; I understand, continue &nbsp;&nbsp;
+      </router-link>
     </v-card-actions>
   </v-flex>
 </template>
-
-<script>
-export default {
-  methods: {
-    agree() {
-      this.$router.go('enter-bitcoin-address');
-    },
-  },
-};
-</script>
 <style scoped>
-.btn {
-    margin: 0 auto;
-}
+  .btn {
+      margin: 0 auto;
+  }
 </style>
 

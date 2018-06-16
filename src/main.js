@@ -7,7 +7,7 @@ import 'vuetify/dist/vuetify.min.css';
 import 'vue-form-wizard/dist/vue-form-wizard.min.css';
 
 import App from './App';
-import routes from './routes';
+import router from './router';
 import store from './store';
 
 Vue.use(VueRouter);
@@ -18,8 +18,6 @@ Vue.use(Vuetify, {
     primary: '#000',
   },
 });
-
-const router = new VueRouter({ routes, mode: 'history' });
 
 /* eslint-disable no-new */
 new Vue({

@@ -10,7 +10,7 @@
           <v-text-field
             label="Bitcoin Address"
             @change="updateAddress"
-            :value="address"
+            :value="$store.state.address"
             :rules="addressRules"
             :counter="34"
             required />
@@ -20,23 +20,16 @@
   </v-flex>
 </template>
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   data: () => ({
     addressRules: [
       a => !!a || 'Address is required!',
     ],
   }),
-  methods: {
-    updateAddress(address) {
-      this.$emit('updateAddress', address);
-    },
-  },
-  props: {
-    address: {
-      type: String,
-      default: '',
-      required: false,
-    },
-  },
+  methods: mapActions([
+    'updateAddress',
+  ]),
 };
 </script>

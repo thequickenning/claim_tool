@@ -1,29 +1,50 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import createLogger from 'vuex/dist/logger';
-import VuexPersistence from 'vuex-persist';
 
 Vue.use(Vuex);
 
-const vuexLocal = new VuexPersistence({
-  storage: window.localStorage,
-  reducer: () => ({}),
+const actualState = {
+  count: 0,
+  address: '18vP7cwZH66QkAwUBr2bcjA1wJQncMWhFt',
+  utox: null,
+};
+
+// mutations are operations that actually mutates the state.
+// each mutation handler gets the entire state tree as the
+// first argument, followed by additional payload arguments.
+// mutations must be synchronous and can be recorded by plugins
+// for debugging purposes.
+
+const mutations = {
+  increment(state) {
+    state.count += 1;
+  },
+  decrement(state) {
+    state.count -= 1;
+  },
+};
+
+// actions are functions that cause side effects and can involve
+// asynchronous operations.
+
+const actions = {
+  increment: ({ commit }) => commit('increment'),
+  decrement: ({ commit }) => commit('decrement'),
+};
+
+// getters are functions
+
+const getters = {
+  evenOrOdd: () => ('even'),
+};
+
+// A Vuex instance is created by combining the state, mutations, actions,
+
+// and getters.
+
+export default new Vuex.Store({
+  state: actualState,
+  getters,
+  actions,
+  mutations,
 });
-
-const state = {};
-
-const getters = {};
-
-const actions = {};
-
-const mutations = {};
-
-const plugins = [vuexLocal.plugin];
-
-if (process.env.NODE_ENV !== 'production') {
-  plugins.push(createLogger());
-}
-
-const store = new Vuex.Store({ state, getters, actions, mutations, plugins });
-
-export default store;

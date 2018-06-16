@@ -1,27 +1,32 @@
 <template>
-  <v-form>
-    <span>
-      Provide the Bitcoin Public Key associated with this address.
-    </span>
-    <v-text-field
-      label="Bitcoin Public Key"
-      @change="updatePublicKey"
-      :rules="publicKeyRules"
-      :counter="52"
-      required
-    />
-
-    <span>
-      Provide the a Message Signed with Bitcoin Private Key associated with this address.
-    </span>
-    <v-text-field
-      label="Signed message with Bitcoin Private Key"
-      @change="updateSignedMessage"
-      :rules="signedMessageRules"
-      textarea
-      required
-    />
-  </v-form>
+  <v-flex xs12>
+    <v-card>
+      <v-card-title primary-title>
+        UTXO Selected with {{ store.utxo.satoshis }} satoshis
+      </v-card-title>
+      <v-card-text>
+        <v-form>
+          <span>
+            Provide the Bitcoin Public Key associated with this address.
+          </span>
+          <v-text-field
+            label="Bitcoin Public Key"
+            :rules="publicKeyRules"
+            required
+          />
+          <span>
+            Provide the a Message Signed with Bitcoin Private Key associated with this address.
+          </span>
+          <v-text-field
+            label="Signed message with Bitcoin Private Key"
+            :rules="signedMessageRules"
+            textarea
+            required
+          />
+        </v-form>
+      </v-card-text>
+    </v-card>
+  </v-flex>
 </template>
 <script>
 export default {
@@ -33,13 +38,5 @@ export default {
       p => !!p || 'Signed message is required!',
     ],
   }),
-  methods: {
-    updatePublicKey() {
-      this.$emit('updatePublicKey', '');
-    },
-    updateSignedMessage() {
-      this.$emit('updateSignedMessage', '');
-    },
-  },
 };
 </script>
