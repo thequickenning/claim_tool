@@ -40,6 +40,7 @@
 </template>
 <script>
 import { mapActions } from 'vuex';
+import Message from 'bitcore-message';
 
 const utxoSet = require('../artifacts/utxo.json'); // TODO This will be pulled in VIA node_modules or build process
 
@@ -48,6 +49,7 @@ export default {
     ...mapActions([
       'setUtxo',
       'setUtxoNotFound',
+      'setVerification',
     ]),
     addressFormSubmit() {
       const matched = utxoSet.find(utxo => utxo.address === this.$store.state.address);
@@ -84,18 +86,43 @@ export default {
       // alert('TODO implement sendEthTransaction()');
       return true;
     },
-    setUTXO() {
-      // alert(`${utxo.outputIndex} - Selected - TODO get UI to display selected by highlighting`);
-    },
-    selectUTXO() {
-      if (this.selected) {
-        return true;
-      }
-      return false;
-    },
     validateSignedMessage() {
-      // alert('TODO implement validateSignedMessage()');
-      return true;
+      const message = 'bitcoinHex';
+      // TODO Add Multiple Verification Algos
+      const algos = [{
+        name:'bitcore-message',
+        func: () =>{
+          console.log("attempting verification",{ 
+              algo: 'bitcore-message',
+              message, 
+              address:this.$store.state.address, 
+              sigure: this.$store.state.signature
+            });
+
+          return Message(message).verify(this.$store.state.address, this.$store.state.signature)
+        }
+      }]
+      let verification = {
+        algo: null,
+        verified: false,
+      };
+      this.setVerification(verification);
+      for (let algo of algos) {
+         try {
+          verification.verified = algo.func();
+          this.setVerification(verification);
+          if (verification.verified === true) {
+            verification.algo = algo.name;
+            this.setVerification(verification);
+            break;
+          }
+        }
+        catch(e) {
+          console.log(e);
+          console.log("swallow excpetion");
+        }
+      }
+      return this.$store.state.verification.verified;
     },
   },
 };
