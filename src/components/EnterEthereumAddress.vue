@@ -40,10 +40,12 @@ export default {
   props: {
     address: {
       type: String,
-      required: true,
+      default: '',
+      required: false,
     },
     selected: {
       type: Object,
+      default: () => {},
       required: false,
     },
   },

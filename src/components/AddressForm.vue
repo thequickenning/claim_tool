@@ -2,17 +2,15 @@
   <v-flex xs12>
     <v-card>
       <v-card-title primary-title>
-        Enter your Bitcoin address and select which UTXO you want to redeem.
-        Each UTXO can only be redeemed once.
+        Enter your Bitcoin Address.
       </v-card-title>
       <v-card-text>
+        <h1 v-if="$store.state.utxoNotFound"> UTXO Not Found Please Try Again </h1>
         <v-form>
-          <v-text-field
+          <v-text-field 
             label="Bitcoin Address"
-            @change="updateAddress"
-            :value="address"
+            v-model="address"
             :rules="addressRules"
-            :counter="34"
             required />
         </v-form>
       </v-card-text>
@@ -20,22 +18,33 @@
   </v-flex>
 </template>
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   data: () => ({
     addressRules: [
       a => !!a || 'Address is required!',
     ],
+    items: [
+      'Multibit',
+      'Mycelium'
+    ],
   }),
-  methods: {
-    updateAddress(address) {
-      this.$emit('updateAddress', address);
+  computed:{
+    address:{
+        get(){ return this.$store.getters.address; },
+        set(address){ this.setAddress(address); }
     },
+    wallet:{
+        get(){ return this.$store.getters.wallet; },
+        set(wallet){ this.setWallet(wallet); }
+    }
   },
-  props: {
-    address: {
-      type: String,
-      required: false,
-    },
+  methods: {
+    ...mapActions([
+      'setAddress',
+      'setWallet'
+    ]),
   },
 };
 </script>

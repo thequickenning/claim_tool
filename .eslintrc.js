@@ -8,7 +8,7 @@ module.exports = {
   env: {
     browser: true,
   },
-  extends: ['plugin:vue/strongly-recommended', 'airbnb-base'],
+  extends: ['plugin:vue/essential', 'airbnb-base'],
   // required to lint *.vue files
   plugins: [
     'vue'
@@ -38,6 +38,7 @@ module.exports = {
         'e' // for e.returnvalue
       ]
     }],
+    'indent': 0,
     // allow optionalDependencies
     'import/no-extraneous-dependencies': ['error', {
       optionalDependencies: ['test/unit/index.js']
